@@ -85,6 +85,19 @@ StateSnapshot CoffeeStateMachine::snapshot() const {
   return StateSnapshot{state_, stateName(state_), state_ == CoffeeState::ERROR, errorMessage_};
 }
 
+const CoffeeState* CoffeeStateMachine::stateOrder(size_t& count) const {
+  static const CoffeeState kStateOrder[] = {
+      CoffeeState::IDLE,        CoffeeState::PRESS_BUTTON, CoffeeState::WAIT_READY,
+      CoffeeState::ACTUATE_LEVER, CoffeeState::BREWING,     CoffeeState::RETURN_LEVER,
+      CoffeeState::DONE};
+  count = sizeof(kStateOrder) / sizeof(kStateOrder[0]);
+  return kStateOrder;
+}
+
+const char* CoffeeStateMachine::nameFor(CoffeeState state) const {
+  return stateName(state);
+}
+
 void CoffeeStateMachine::transitionTo(CoffeeState next, uint32_t nowMs) {
   state_ = next;
   stateStartMs_ = nowMs;

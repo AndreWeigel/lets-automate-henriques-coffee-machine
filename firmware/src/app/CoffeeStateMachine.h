@@ -38,6 +38,8 @@ class CoffeeStateMachine {
   void requestStart();
 
   StateSnapshot snapshot() const;
+  const CoffeeState* stateOrder(size_t& count) const;
+  const char* nameFor(CoffeeState state) const;
 
  private:
   void transitionTo(CoffeeState next, uint32_t nowMs);

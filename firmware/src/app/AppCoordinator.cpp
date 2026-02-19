@@ -28,12 +28,24 @@ void AppCoordinator::loop() {
 
 String AppCoordinator::statusJson() {
   StateSnapshot snapshot = stateMachine_.snapshot();
+  size_t stateCount = 0;
+  const CoffeeState* stateOrder = stateMachine_.stateOrder(stateCount);
   String json = "{";
   json += "\"state\":\"";
   json += snapshot.name;
   json += "\"";
   json += ",\"error\":";
   json += snapshot.error ? "true" : "false";
+  json += ",\"states\":[";
+  for (size_t i = 0; i < stateCount; ++i) {
+    if (i > 0) {
+      json += ",";
+    }
+    json += "\"";
+    json += stateMachine_.nameFor(stateOrder[i]);
+    json += "\"";
+  }
+  json += "]";
   if (snapshot.message) {
     json += ",\"message\":\"";
     json += snapshot.message;
