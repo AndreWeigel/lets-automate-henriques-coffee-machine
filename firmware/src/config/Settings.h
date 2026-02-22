@@ -14,6 +14,14 @@
 #define COFFEE_WIFI_PASS "change-me"
 #endif
 
+#ifndef COFFEE_AP_SSID
+#define COFFEE_AP_SSID "CoffeeMachine-Setup"
+#endif
+
+#ifndef COFFEE_AP_PASS
+#define COFFEE_AP_PASS "change-me-123"
+#endif
+
 namespace Settings {
 struct RuntimeSettings {
   uint32_t buttonPressMs;
@@ -36,6 +44,8 @@ struct RuntimeSettings {
 
   const char* wifiSsid;
   const char* wifiPass;
+  const char* apSsid;
+  const char* apPass;
 };
 
 inline RuntimeSettings defaults() {
@@ -60,6 +70,8 @@ inline RuntimeSettings defaults() {
 
   settings.wifiSsid = COFFEE_WIFI_SSID;
   settings.wifiPass = COFFEE_WIFI_PASS;
+  settings.apSsid = COFFEE_AP_SSID;
+  settings.apPass = COFFEE_AP_PASS;
 
   return settings;
 }

@@ -52,6 +52,7 @@ States:
 - GPIO pins in [firmware/src/config/Pins.h](src/config/Pins.h)
 - Timing and servo settings in [firmware/src/config/Settings.h](src/config/Settings.h)
 - WiFi STA credentials in firmware/secrets.h (see template)
+- Device AP credentials in firmware/secrets.h (see template)
 
 ## Web UI
 
@@ -67,6 +68,13 @@ When built with test mode enabled (see below), additional endpoints are exposed:
 - POST /api/test/state-reset
 
 UI is embedded in firmware and served on port 80.
+
+The firmware starts in AP+STA mode:
+- STA: joins your existing WiFi using `COFFEE_WIFI_SSID` / `COFFEE_WIFI_PASS`
+- AP: broadcasts `COFFEE_AP_SSID` with password `COFFEE_AP_PASS`
+
+For direct access, connect to the device AP and open:
+- `http://192.168.4.1`
 
 ## Test Mode (Compile-Time)
 

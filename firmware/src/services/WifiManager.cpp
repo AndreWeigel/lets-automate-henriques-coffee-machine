@@ -40,6 +40,8 @@ void logScanResults() {
 WifiManager::WifiManager(const Settings::RuntimeSettings& settings)
     : ssid_(settings.wifiSsid),
       pass_(settings.wifiPass),
+      apSsid_(settings.apSsid),
+      apPass_(settings.apPass),
       lastStatus_(WL_IDLE_STATUS),
       lastAttemptMs_(0),
       lastLogMs_(0),
@@ -47,7 +49,16 @@ WifiManager::WifiManager(const Settings::RuntimeSettings& settings)
       logIntervalMs_(5000) {}
 
 void WifiManager::begin() {
-  WiFi.mode(WIFI_STA);
+  WiFi.mode(WIFI_AP_STA);
+
+  bool apStarted = WiFi.softAP(apSsid_, apPass_);
+  if (apStarted) {
+    String message = String("WiFi AP ready: ") + apSsid_ + " @ " + WiFi.softAPIP().toString();
+    Logger::info(message.c_str());
+  } else {
+    Logger::error("WiFi AP start failed");
+  }
+
   logScanResults();
   WiFi.begin(ssid_, pass_);
   lastStatus_ = WiFi.status();
@@ -71,7 +82,7 @@ void WifiManager::loop() {
 
   if (status != WL_CONNECTED && (nowMs - lastAttemptMs_) >= retryIntervalMs_) {
     Logger::warn("WiFi reconnecting");
-    WiFi.disconnect(true);
+    WiFi.disconnect(false, false);
     WiFi.begin(ssid_, pass_);
     lastAttemptMs_ = nowMs;
   }

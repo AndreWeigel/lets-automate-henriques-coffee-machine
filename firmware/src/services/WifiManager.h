@@ -16,9 +16,11 @@ class WifiManager {
  private:
   const char* ssid_;
   const char* pass_;
+  const char* apSsid_;
+  const char* apPass_;
   wl_status_t lastStatus_;
-    uint32_t lastAttemptMs_;
-    uint32_t lastLogMs_;
-    uint32_t retryIntervalMs_;
-    uint32_t logIntervalMs_;
+  uint32_t lastAttemptMs_;
+  uint32_t lastLogMs_;
+  uint32_t retryIntervalMs_;
+  uint32_t logIntervalMs_;
 };
