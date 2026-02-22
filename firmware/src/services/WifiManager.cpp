@@ -45,6 +45,7 @@ WifiManager::WifiManager(const Settings::RuntimeSettings& settings)
       apSsid_(settings.apSsid),
       apPass_(settings.apPass),
       mdnsHost_(settings.mdnsHost),
+      wifiStaEnabled_(settings.wifiStaEnabled),
       lastStatus_(WL_IDLE_STATUS),
       lastAttemptMs_(0),
       lastLogMs_(0),
@@ -52,7 +53,7 @@ WifiManager::WifiManager(const Settings::RuntimeSettings& settings)
       logIntervalMs_(5000) {}
 
 void WifiManager::begin() {
-  WiFi.mode(WIFI_AP_STA);
+  WiFi.mode(wifiStaEnabled_ ? WIFI_AP_STA : WIFI_AP);
 
   bool apStarted = WiFi.softAP(apSsid_, apPass_);
   if (apStarted) {
@@ -69,6 +70,11 @@ void WifiManager::begin() {
     Logger::warn("mDNS start failed");
   }
 
+  if (!wifiStaEnabled_) {
+    Logger::info("WiFi STA disabled (AP-only mode)");
+    return;
+  }
+
   logScanResults();
   WiFi.begin(ssid_, pass_);
   lastStatus_ = WiFi.status();
@@ -78,6 +84,10 @@ void WifiManager::begin() {
 }
 
 void WifiManager::loop() {
+  if (!wifiStaEnabled_) {
+    return;
+  }
+
   uint32_t nowMs = millis();
   wl_status_t status = WiFi.status();
   if (status != lastStatus_) {

@@ -19,6 +19,7 @@ class WifiManager {
   const char* apSsid_;
   const char* apPass_;
   const char* mdnsHost_;
+  bool wifiStaEnabled_;
   wl_status_t lastStatus_;
   uint32_t lastAttemptMs_;
   uint32_t lastLogMs_;
