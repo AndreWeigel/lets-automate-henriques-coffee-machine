@@ -26,6 +26,16 @@ void CoffeeStateMachine::requestStart() {
   startRequested_ = true;
 }
 
+bool CoffeeStateMachine::isIdle() const {
+  return state_ == CoffeeState::IDLE;
+}
+
+void CoffeeStateMachine::forceIdleReset() {
+  startRequested_ = false;
+  errorMessage_ = nullptr;
+  transitionTo(CoffeeState::IDLE, millis());
+}
+
 void CoffeeStateMachine::update() {
   uint32_t nowMs = millis();
   readySignal_.update(nowMs);

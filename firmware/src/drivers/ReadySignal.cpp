@@ -33,3 +33,7 @@ bool ReadySignal::isReady(uint32_t nowMs) const {
   }
   return (nowMs - activeSinceMs_) >= debounceMs_;
 }
+
+bool ReadySignal::isRawActive() const {
+  return digitalRead(pin_) == activeLevel_;
+}

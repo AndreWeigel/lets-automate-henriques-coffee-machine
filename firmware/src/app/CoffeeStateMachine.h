@@ -36,6 +36,8 @@ class CoffeeStateMachine {
   void begin();
   void update();
   void requestStart();
+  bool isIdle() const;
+  void forceIdleReset();
 
   StateSnapshot snapshot() const;
   const CoffeeState* stateOrder(size_t& count) const;

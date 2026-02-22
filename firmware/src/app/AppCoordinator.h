@@ -9,6 +9,7 @@
 #include "drivers/LeverServo.h"
 #include "drivers/ReadySignal.h"
 #include "services/WifiManager.h"
+#include "services/Timeout.h"
 #include "ui/WebUi.h"
 
 class AppCoordinator {
@@ -20,6 +21,14 @@ class AppCoordinator {
 
  private:
   String statusJson();
+  #ifdef COFFEE_TEST_MODE
+    WebUi::JsonResponse testButtonPress();
+    WebUi::JsonResponse testReady();
+    WebUi::JsonResponse testLeverBrew();
+    WebUi::JsonResponse testLeverRest();
+    WebUi::JsonResponse testStateReset();
+    WebUi::JsonResponse testRejectedBusy(const char* action) const;
+  #endif
 
   Settings::RuntimeSettings settings_;
   ButtonSim buttonSim_;
@@ -28,4 +37,8 @@ class AppCoordinator {
   WifiManager wifiManager_;
   WebUi webUi_;
   CoffeeStateMachine stateMachine_;
+#ifdef COFFEE_TEST_MODE
+  Timeout testButtonTimer_;
+  bool testButtonActive_;
+#endif
 };

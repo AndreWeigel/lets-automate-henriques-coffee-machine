@@ -11,6 +11,7 @@ class ReadySignal {
   void begin();
   void update(uint32_t nowMs);
   bool isReady(uint32_t nowMs) const;
+  bool isRawActive() const;
 
  private:
   uint8_t pin_;
