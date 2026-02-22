@@ -1,5 +1,7 @@
 #include "services/WifiManager.h"
 
+#include <ESPmDNS.h>
+
 #include "services/Logger.h"
 
 namespace {
@@ -42,6 +44,7 @@ WifiManager::WifiManager(const Settings::RuntimeSettings& settings)
       pass_(settings.wifiPass),
       apSsid_(settings.apSsid),
       apPass_(settings.apPass),
+      mdnsHost_(settings.mdnsHost),
       lastStatus_(WL_IDLE_STATUS),
       lastAttemptMs_(0),
       lastLogMs_(0),
@@ -57,6 +60,13 @@ void WifiManager::begin() {
     Logger::info(message.c_str());
   } else {
     Logger::error("WiFi AP start failed");
+  }
+
+  if (MDNS.begin(mdnsHost_)) {
+    String message = String("mDNS ready: http://") + mdnsHost_ + ".local";
+    Logger::info(message.c_str());
+  } else {
+    Logger::warn("mDNS start failed");
   }
 
   logScanResults();

@@ -72,9 +72,11 @@ UI is embedded in firmware and served on port 80.
 The firmware starts in AP+STA mode:
 - STA: joins your existing WiFi using `COFFEE_WIFI_SSID` / `COFFEE_WIFI_PASS`
 - AP: broadcasts `COFFEE_AP_SSID` with password `COFFEE_AP_PASS`
+- mDNS: advertises `http://<COFFEE_MDNS_HOST>.local` (default `http://coffee.local`)
 
 For direct access, connect to the device AP and open:
-- `http://192.168.4.1`
+- `http://coffee.local` (or your configured mDNS host)
+- Fallback: `http://192.168.4.1`
 
 ## Test Mode (Compile-Time)
 

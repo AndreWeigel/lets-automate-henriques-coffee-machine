@@ -22,6 +22,10 @@
 #define COFFEE_AP_PASS "change-me-123"
 #endif
 
+#ifndef COFFEE_MDNS_HOST
+#define COFFEE_MDNS_HOST "coffee"
+#endif
+
 namespace Settings {
 struct RuntimeSettings {
   uint32_t buttonPressMs;
@@ -46,6 +50,7 @@ struct RuntimeSettings {
   const char* wifiPass;
   const char* apSsid;
   const char* apPass;
+  const char* mdnsHost;
 };
 
 inline RuntimeSettings defaults() {
@@ -72,6 +77,7 @@ inline RuntimeSettings defaults() {
   settings.wifiPass = COFFEE_WIFI_PASS;
   settings.apSsid = COFFEE_AP_SSID;
   settings.apPass = COFFEE_AP_PASS;
+  settings.mdnsHost = COFFEE_MDNS_HOST;
 
   return settings;
 }
