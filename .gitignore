@@ -1,0 +1,8 @@
+# Local secrets
+firmware/secrets.h
+
+# PlatformIO build/dependency artifacts
+firmware/.pio/
+
+# Editor/OS local files
+.DS_Store
